@@ -1,65 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2007-2011 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.android.providers.subscribedfeeds"
-        android:sharedUserId="android.uid.system">
+        package="com.android.basicsmsreceiver">
 
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.BACKUP" />
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <original-package android:name="com.android.basicsmsreceiver" />
 
-    <application android:process="system"
-                 android:allowClearUserData="false"
-                 android:icon="@drawable/app_icon"
-                 android:label="@string/app_label">
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
-        <activity android:name="com.android.settings.ManageAccountsSettings"
-            android:label="@string/sync_settings">
+    <!-- Needed just for the unit tests -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
+    <application android:name="BasicSmsReceiverApp"
+            android:label="@string/sms_app_name"
+            android:hardwareAccelerated="true">
+
+        <activity android:name=".DialogSmsDisplay"
+                  android:theme="@android:style/Theme.Holo.Dialog"
+                  android:launchMode="singleTop" />
+
+        <receiver android:name=".SmsMessageReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.settings.SYNC_SETTINGS" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
-        </activity>
+        </receiver>
 
-        <activity android:name="com.android.settings.AccountSyncSettings"
-            android:label="@string/sync_settings"
-            android:theme="@android:style/Theme.NoTitleBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.settings.ACCOUNT_SYNC_SETTINGS" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name="com.android.settings.AccountSyncSettingsInAddAccount"
-            android:label="@string/sync_settings"
-            android:theme="@android:style/Theme.NoTitleBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.settings.ACCOUNT_SYNC_SETTINGS_ADD_ACCOUNT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name="com.android.settings.AddAccountSettings"
-            android:label="@string/header_add_an_account">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.settings.ADD_ACCOUNT_SETTINGS" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name="com.android.settings.SyncActivityTooManyDeletes"
-                  android:theme="@android:style/Theme.Dialog"
-                  android:label="@string/sync_too_many_deletes">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
     </application>
 </manifest>
